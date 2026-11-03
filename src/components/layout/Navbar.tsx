@@ -8,12 +8,39 @@ import { navItems, site, whatsappHref } from "../../data/site";
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isCatalog, setIsCatalog] = useState(false);
   const [activeHref, setActiveHref] = useState(navItems[0].href);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const checkRoute = () => {
+      const isProduk =
+        window.location.pathname === "/produk" ||
+        window.location.pathname === "/produk/" ||
+        window.location.hash.startsWith("#/produk");
+      setIsCatalog(isProduk);
+      if (isProduk) {
+        setActiveHref("/produk");
+      }
+    };
+
+    checkRoute();
+    window.addEventListener("popstate", checkRoute);
+    window.addEventListener("hashchange", checkRoute);
+
+    return () => {
+      window.removeEventListener("popstate", checkRoute);
+      window.removeEventListener("hashchange", checkRoute);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isCatalog) {
+      return;
+    }
+
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 12);
 
@@ -21,6 +48,7 @@ export function Navbar() {
       let currentHref = navItems[0].href;
 
       navItems.forEach((item) => {
+        if (item.href === "#produk") return;
         const section = document.getElementById(item.href.slice(1));
         if (!section) {
           return;
@@ -31,6 +59,12 @@ export function Navbar() {
         }
       });
 
+      // Check produk section on home
+      const produkSection = document.getElementById("produk");
+      if (produkSection && produkSection.getBoundingClientRect().top <= offset) {
+        currentHref = "#produk";
+      }
+
       setActiveHref(currentHref);
     };
 
@@ -40,7 +74,7 @@ export function Navbar() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [isCatalog]);
 
   useEffect(() => {
     if (!isOpen) {
@@ -94,6 +128,24 @@ export function Navbar() {
     menuButtonRef.current?.focus();
   };
 
+  const getEffectiveHref = (itemHref: string) => {
+    if (itemHref === "#produk") {
+      return "/produk";
+    }
+    if (isCatalog) {
+      if (itemHref === "#home") return "/";
+      return `/${itemHref}`;
+    }
+    return itemHref;
+  };
+
+  const isItemActive = (itemHref: string) => {
+    if (isCatalog) {
+      return itemHref === "#produk";
+    }
+    return activeHref === itemHref;
+  };
+
   return (
     <header
       className={`sticky top-0 z-50 border-b bg-white transition-colors duration-300 ${
@@ -101,27 +153,28 @@ export function Navbar() {
       }`}
     >
       <Container className="flex h-20 items-center justify-between gap-6">
-        <Logo />
+        <Logo href={isCatalog ? "/" : "#home"} />
 
         <nav className="hidden items-center gap-6 lg:flex xl:gap-8" aria-label="Navigasi utama">
           {navItems.map((item) => {
-            const isActive = activeHref === item.href;
+            const targetHref = getEffectiveHref(item.href);
+            const active = isItemActive(item.href);
 
             return (
               <a
                 key={item.href}
-                href={item.href}
-                aria-current={isActive ? "location" : undefined}
+                href={targetHref}
+                aria-current={active ? (isCatalog && item.href === "#produk" ? "page" : "location") : undefined}
                 className={`relative py-2 text-[13px] font-medium transition-colors duration-200 ${
-                  isActive
-                    ? "text-graphite"
+                  active
+                    ? "text-graphite font-semibold"
                     : "text-graphite/75 hover:text-graphite"
                 }`}
               >
                 {item.label}
                 <span
                   className={`absolute inset-x-0 -bottom-0.5 h-px bg-industrial-blue transition-all duration-200 ${
-                    isActive ? "opacity-100" : "opacity-0"
+                    active ? "opacity-100" : "opacity-0"
                   }`}
                   aria-hidden="true"
                 />
@@ -172,7 +225,7 @@ export function Navbar() {
           className="fixed inset-0 z-[60] flex flex-col bg-white lg:hidden"
         >
           <Container className="flex h-20 shrink-0 items-center justify-between border-b border-steel-grey">
-            <Logo />
+            <Logo href={isCatalog ? "/" : "#home"} />
             <button
               ref={closeButtonRef}
               type="button"
@@ -186,28 +239,33 @@ export function Navbar() {
 
           <Container className="flex flex-1 flex-col overflow-y-auto py-8">
             <nav className="flex flex-col" aria-label="Navigasi mobile">
-              {navItems.map((item, index) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  onClick={closeMenu}
-                  aria-current={activeHref === item.href ? "location" : undefined}
-                  className="group flex items-center justify-between border-b border-steel-grey py-5"
-                >
-                  <span className="flex items-baseline gap-4">
-                    <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-industrial-blue">
-                      {String(index + 1).padStart(2, "0")}
+              {navItems.map((item, index) => {
+                const targetHref = getEffectiveHref(item.href);
+                const active = isItemActive(item.href);
+
+                return (
+                  <a
+                    key={item.href}
+                    href={targetHref}
+                    onClick={closeMenu}
+                    aria-current={active ? (isCatalog && item.href === "#produk" ? "page" : "location") : undefined}
+                    className="group flex items-center justify-between border-b border-steel-grey py-5"
+                  >
+                    <span className="flex items-baseline gap-4">
+                      <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-industrial-blue">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                      <span className={`font-display text-3xl font-semibold tracking-[-0.025em] ${active ? "text-industrial-blue" : "text-graphite"}`}>
+                        {item.label}
+                      </span>
                     </span>
-                    <span className="font-display text-3xl font-semibold tracking-[-0.025em] text-graphite">
-                      {item.label}
-                    </span>
-                  </span>
-                  <ArrowUpRight
-                    className="size-5 text-graphite/50 transition-transform duration-200 group-hover:translate-x-0.5"
-                    aria-hidden="true"
-                  />
-                </a>
-              ))}
+                    <ArrowUpRight
+                      className="size-5 text-graphite/50 transition-transform duration-200 group-hover:translate-x-0.5"
+                      aria-hidden="true"
+                    />
+                  </a>
+                );
+              })}
             </nav>
 
             <div className="mt-auto pt-10">

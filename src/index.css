@@ -95,11 +95,13 @@
   }
 }
 
-.category-scroll {
+.category-scroll,
+.scrollbar-none {
   scrollbar-width: none;
 }
 
-.category-scroll::-webkit-scrollbar {
+.category-scroll::-webkit-scrollbar,
+.scrollbar-none::-webkit-scrollbar {
   display: none;
 }
 

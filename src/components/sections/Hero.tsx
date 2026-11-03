@@ -8,34 +8,49 @@ export function Hero() {
   return (
     <section
       id="home"
-      className="relative scroll-mt-20 overflow-hidden border-b border-steel-grey bg-white"
+      className="relative scroll-mt-20 overflow-hidden border-b border-steel-grey bg-graphite text-white"
     >
-      <Container>
-        <div className="grid items-stretch gap-10 lg:grid-cols-12 lg:gap-8">
-          <div className="flex flex-col justify-center pt-14 lg:col-span-7 lg:py-20">
+      {/* 1. Full-Width Background Image with Scrim */}
+      <div className="absolute inset-0 z-0">
+        <img
+          src={hero.image}
+          alt={hero.imageAlt}
+          fetchPriority="high"
+          decoding="async"
+          className="size-full object-cover object-center"
+        />
+        <div
+          className="absolute inset-0 bg-gradient-to-t from-graphite via-graphite/80 to-graphite/60 sm:bg-gradient-to-r sm:from-graphite/95 sm:via-graphite/85 sm:to-graphite/40"
+          aria-hidden="true"
+        />
+      </div>
+
+      {/* 2. Hero Content */}
+      <div className="relative z-10 pt-20 pb-16 sm:pt-28 sm:pb-24 lg:pt-36 lg:pb-32">
+        <Container>
+          <div className="max-w-3xl">
             <Reveal>
-              <div className="flex items-center gap-4 text-[10px] font-semibold uppercase tracking-[0.18em] text-graphite/60">
-                <span className="h-px w-10 bg-industrial-blue" aria-hidden="true" />
+              <div className="flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-white/70">
+                <span className="h-px w-8 bg-industrial-blue" aria-hidden="true" />
                 <span>{hero.eyebrow}</span>
               </div>
 
-              <h1 className="mt-7 max-w-[780px] font-display text-[clamp(2.75rem,6vw,5.5rem)] font-semibold leading-[0.98] tracking-[-0.04em] text-graphite">
-                {hero.titleBefore}{" "}
-                <span className="text-industrial-blue">{hero.titleAccent}</span>{" "}
-                {hero.titleAfter}
+              <h1 className="mt-6 font-display text-[clamp(2.5rem,5.5vw,4.75rem)] font-bold leading-[1.05] tracking-[-0.035em] text-white">
+                {hero.title}
               </h1>
 
-              <p className="mt-7 max-w-xl text-base leading-7 text-graphite/60 sm:text-lg sm:leading-8">
+              <p className="mt-6 max-w-2xl text-base leading-relaxed text-white/80 sm:text-lg sm:leading-8">
                 {hero.description}
               </p>
 
-              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+              <div className="mt-10 flex flex-col gap-3.5 sm:flex-row sm:items-center">
                 <Button
-                  href="#produk"
+                  href="#product"
                   variant="primary"
                   icon={<ArrowRight className="size-4" aria-hidden="true" />}
+                  className="w-full sm:w-auto"
                 >
-                  Jelajahi Produk
+                  {hero.primaryCta}
                 </Button>
                 <Button
                   href={whatsappHref}
@@ -43,76 +58,48 @@ export function Hero() {
                   icon={<MessageCircle className="size-4" aria-hidden="true" />}
                   target="_blank"
                   rel="noreferrer"
+                  className="w-full border-white/40 text-white hover:bg-white hover:text-graphite sm:w-auto"
                 >
-                  Hubungi Kami
+                  {hero.secondaryCta}
                 </Button>
               </div>
 
-              <ul className="mt-9 flex flex-wrap gap-x-6 gap-y-3 text-[12px] font-medium uppercase tracking-[0.08em] text-graphite/60">
+              <ul className="mt-12 flex flex-wrap gap-x-8 gap-y-3 text-[12px] font-medium uppercase tracking-[0.1em] text-white/70">
                 {hero.proof.map((item) => (
-                  <li key={item} className="flex items-center gap-2">
-                    <span className="size-1 bg-industrial-blue" aria-hidden="true" />
-                    {item}
+                  <li key={item} className="flex items-center gap-2.5">
+                    <span className="size-1.5 bg-blue-accent rounded-full" aria-hidden="true" />
+                    <span>{item}</span>
                   </li>
                 ))}
               </ul>
             </Reveal>
           </div>
+        </Container>
+      </div>
 
-          <div className="relative pb-10 lg:col-span-5 lg:py-8">
-            <Reveal delay={0.1} className="relative h-full">
-              <div className="relative h-full overflow-hidden bg-white">
-                <img
-                  src={hero.image}
-                  alt={hero.imageAlt}
-                  width="1800"
-                  height="1200"
-                  fetchPriority="high"
-                  decoding="async"
-                  className="h-[430px] w-full object-cover sm:h-[540px] lg:h-full lg:min-h-[650px]"
-                />
-                <div
-                  className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-graphite/30 to-transparent"
-                  aria-hidden="true"
-                />
-                <div className="absolute bottom-5 left-5 max-w-[280px] border-l-2 border-industrial-blue bg-white p-5">
-                  <p className="text-[9px] font-semibold uppercase tracking-[0.18em] text-industrial-blue">
-                    Tepat / Machining
-                  </p>
-                  <p className="mt-2 text-sm font-medium leading-6 text-graphite">
-                    {hero.caption}
-                  </p>
-                </div>
-              </div>
-              <div
-                className="absolute -left-3 top-8 hidden h-24 border-l border-industrial-blue/60 lg:block"
-                aria-hidden="true"
-              />
-            </Reveal>
-          </div>
-        </div>
-
-        <nav
-          className="mt-2 border-t border-steel-grey py-5 lg:mt-0"
-          aria-label="Kategori produk"
-        >
-          <div className={`category-scroll flex items-center gap-5 overflow-x-auto pb-1 pr-8 lg:pr-0`}>
-            <span className="shrink-0 text-[10px] font-semibold uppercase tracking-[0.16em] text-graphite/60">
+      {/* 3. Bottom Category Strip */}
+      <div className="relative z-10 border-t border-white/15 bg-graphite/90 backdrop-blur-sm py-4">
+        <Container>
+          <nav
+            className="flex items-center gap-6 overflow-x-auto scrollbar-none"
+            aria-label="Kategori produk utama"
+          >
+            <span className="shrink-0 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/50">
               Kategori
             </span>
-            <span className="h-4 w-px shrink-0 bg-steel-grey" aria-hidden="true" />
+            <span className="h-3.5 w-px shrink-0 bg-white/20" aria-hidden="true" />
             {products.map((product) => (
               <a
                 key={product.id}
-                href="#produk"
-                className="shrink-0 text-xs font-medium text-graphite/70 transition-colors hover:text-industrial-blue"
+                href="#product"
+                className="shrink-0 text-xs font-medium text-white/75 transition-colors hover:text-white"
               >
                 {product.name}
               </a>
             ))}
-          </div>
-        </nav>
-      </Container>
+          </nav>
+        </Container>
+      </div>
     </section>
   );
 }

@@ -71,24 +71,23 @@ export const navItems: NavItem[] = [
 
 export const hero = {
   eyebrow: "Perlengkapan machining & bengkel bubut",
-  titleBefore: "Solusi perlengkapan",
-  titleAccent: "bengkel bubut",
-  titleAfter: "dan kebutuhan machining.",
+  title: "Perlengkapan Bengkel Bubut & Machining Berkualitas",
   description:
-    "Menyediakan berbagai kebutuhan peralatan machining dan perkakas industri untuk mendukung pekerjaan bengkel bubut secara profesional.",
+    "Solusi terpercaya untuk kebutuhan peralatan machining dan perlengkapan bengkel bubut Anda.",
+  primaryCta: "Jelajahi Produk",
+  secondaryCta: "Hubungi Kami",
   image: heroDrill,
   imageAlt:
     "Mata bor mesin CNC sedang mengebor logam dengan aliran cairan pendingin",
-  caption: "Mata bor, tap, dan insert untuk kebutuhan machining harian.",
   proof: ["Pemilihan produk", "Konsultasi kebutuhan", "Respons via WhatsApp"],
 };
 
 export const about = {
-  index: "01",
+  index: "02",
   eyebrow: "Tentang Kami",
-  title: "Perlengkapan yang tepat untuk pekerjaan yang menuntut presisi.",
+  title: "Tentang Tepat Supplier Tools",
   paragraphs: [
-    "Tepat Supplier Tools adalah supplier perlengkapan bengkel bubut dan perkakas machining yang melayani kebutuhan workshop, teknisi, serta tim pengadaan.",
+    "Tepat Supplier Tools menyediakan berbagai kebutuhan perlengkapan bengkel bubut dan machining untuk membantu para pelaku industri menemukan peralatan yang sesuai dengan kebutuhan pekerjaan mereka.",
     "Kami memahami bahwa hasil pekerjaan yang presisi dimulai dari perkakas yang sesuai. Karena itu, kami membantu pelanggan memilih produk berdasarkan aplikasi, material, dan kebutuhan pekerjaan.",
   ],
   points: [
@@ -177,6 +176,27 @@ export const productsSection = {
   panelDescription:
     "Kirimkan detail kebutuhan Anda. Kami akan membantu mengecek ketersediaan produk yang sesuai.",
   panelCta: "Tanya ketersediaan",
+} as const;
+
+export const catalogPage = {
+  bannerEyebrow: "Katalog Produk",
+  bannerTitle: "Solusi Perlengkapan Machining untuk Kebutuhan Industri",
+  bannerDescription:
+    "Temukan berbagai pilihan peralatan bengkel bubut dan kebutuhan machining dari Tepat Supplier Tools.",
+  bannerImage: brandStepDrills,
+  bannerImageAlt:
+    "Mata bor step drill dan perkakas potong untuk kebutuhan machining industri",
+  title: "Produk Kami",
+  description:
+    "Berbagai pilihan perlengkapan bengkel bubut dan kebutuhan machining untuk mendukung pekerjaan Anda.",
+  aboutTitle: "Tentang Tepat Supplier Tools",
+  aboutDescription:
+    "Tepat Supplier Tools menyediakan berbagai kebutuhan perlengkapan bengkel bubut dan machining untuk membantu para pelaku industri menemukan peralatan yang sesuai dengan kebutuhan pekerjaan mereka.",
+  ctaEyebrow: "Konsultasi & Pemesanan",
+  ctaTitle: "Butuh Informasi Lebih Lanjut?",
+  ctaDescription:
+    "Hubungi kami untuk mendapatkan informasi mengenai produk dan kebutuhan perlengkapan bengkel Anda.",
+  ctaLabel: "Hubungi Kami",
 } as const;
 
 export const advantages: Advantage[] = [

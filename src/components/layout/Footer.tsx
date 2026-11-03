@@ -39,7 +39,7 @@ export function Footer() {
 
         <div className="grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-12">
           <div className="lg:col-span-3">
-            <Logo tone="dark" />
+            <Logo tone="dark" href="/" />
             <p className="mt-6 max-w-xs text-sm leading-6 text-graphite/50">
               Supplier perlengkapan bengkel bubut, perkakas machining, dan
               peralatan potong industri.
@@ -54,16 +54,19 @@ export function Footer() {
               Navigasi
             </h3>
             <ul className="mt-5 space-y-3">
-              {navItems.map((item) => (
-                <li key={item.href}>
-                  <a
-                    href={item.href}
-                    className="text-sm text-white/70 transition-colors hover:text-white"
-                  >
-                    {item.label}
-                  </a>
-                </li>
-              ))}
+              {navItems.map((item) => {
+                const href = item.href === "#produk" ? "/produk" : item.href;
+                return (
+                  <li key={item.href}>
+                    <a
+                      href={href}
+                      className="text-sm text-white/70 transition-colors hover:text-white"
+                    >
+                      {item.label}
+                    </a>
+                  </li>
+                );
+              })}
             </ul>
           </div>
 
@@ -72,10 +75,19 @@ export function Footer() {
               Produk
             </h3>
             <ul className="mt-5 space-y-3">
+              <li>
+                <a
+                  href="/produk"
+                  className="inline-flex items-center gap-1 font-semibold text-industrial-blue transition-colors hover:text-white"
+                >
+                  Katalog Lengkap
+                  <ArrowUpRight className="size-3" aria-hidden="true" />
+                </a>
+              </li>
               {products.map((product) => (
                 <li key={product.id}>
                   <a
-                    href="#produk"
+                    href="/produk"
                     className="text-sm text-white/70 transition-colors hover:text-white"
                   >
                     {product.name}

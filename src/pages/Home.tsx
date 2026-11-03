@@ -19,8 +19,8 @@ export function Home() {
       <Navbar />
       <main id="main-content">
         <Hero />
-        <About />
         <Products />
+        <About />
         <WhyChooseUs />
         <BrandShowcase />
         <Contact />

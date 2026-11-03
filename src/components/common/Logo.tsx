@@ -1,18 +1,23 @@
 interface LogoProps {
   tone?: "light" | "dark";
   className?: string;
+  href?: string;
 }
 
-export function Logo({ tone = "light", className = "" }: LogoProps) {
+export function Logo({
+  tone = "light",
+  className = "",
+  href = "/",
+}: LogoProps) {
   const textColor = tone === "dark" ? "text-white" : "text-graphite";
   const subColor = tone === "dark" ? "text-graphite/50" : "text-graphite/60";
   const borderColor = tone === "dark" ? "border-white/40" : "border-graphite";
 
   return (
     <a
-      href="#home"
+      href={href}
       className={`inline-flex shrink-0 items-center gap-3 ${className}`}
-      aria-label="Tepat Supplier Tools — kembali ke atas"
+      aria-label="Tepat Supplier Tools — kembali ke beranda"
     >
       <span
         className={`flex size-9 items-center justify-center border ${borderColor}`}
