@@ -183,9 +183,9 @@ export const catalogPage = {
   bannerTitle: "Solusi Perlengkapan Machining untuk Kebutuhan Industri",
   bannerDescription:
     "Temukan berbagai pilihan peralatan bengkel bubut dan kebutuhan machining dari Tepat Supplier Tools.",
-  bannerImage: brandStepDrills,
+  bannerImage: heroDrill,
   bannerImageAlt:
-    "Mata bor step drill dan perkakas potong untuk kebutuhan machining industri",
+    "Mata bor CNC mengebor logam dengan cairan pendingin di bengkel machining",
   title: "Produk Kami",
   description:
     "Berbagai pilihan perlengkapan bengkel bubut dan kebutuhan machining untuk mendukung pekerjaan Anda.",

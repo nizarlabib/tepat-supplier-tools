@@ -6,14 +6,17 @@ import { CatalogBanner } from "../components/catalog/CatalogBanner";
 import { CatalogHeader } from "../components/catalog/CatalogHeader";
 import { CategoryFilterSidebar } from "../components/catalog/CategoryFilterSidebar";
 import { ProductGrid } from "../components/catalog/ProductGrid";
+import { SearchBar } from "../components/catalog/SearchBar";
 import { CatalogAbout } from "../components/catalog/CatalogAbout";
 import { ContactCTA } from "../components/catalog/ContactCTA";
 import { products } from "../data/products";
 
-const PAGE_SIZE = 6;
+const PAGE_SIZE = 9;
+const SEARCH_DEBOUNCE_MS = 300;
 
 export function Catalog() {
   const [selectedCategory, setSelectedCategory] = useState<string>("Semua Produk");
+  const [searchInput, setSearchInput] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
 
@@ -41,6 +44,18 @@ export function Catalog() {
     };
   }, []);
 
+  // Debounce the text search by 300 ms. The input stays responsive while the
+  // applied query only updates after the user pauses typing. Each new applied
+  // query returns the catalog to page 1.
+  useEffect(() => {
+    const timeout = window.setTimeout(() => {
+      setSearchQuery(searchInput);
+      setCurrentPage(1);
+    }, SEARCH_DEBOUNCE_MS);
+
+    return () => window.clearTimeout(timeout);
+  }, [searchInput]);
+
   const categoryCounts = useMemo(() => {
     return products.reduce(
       (acc, item) => {
@@ -62,7 +77,6 @@ export function Catalog() {
       const searchableValues = [
         product.name,
         product.brand ?? "",
-        product.category,
         product.description,
       ];
 
@@ -92,12 +106,18 @@ export function Catalog() {
   };
 
   const handleSearchChange = (query: string) => {
-    setSearchQuery(query);
+    setSearchInput(query);
+  };
+
+  const handleClearSearch = () => {
+    setSearchInput("");
+    setSearchQuery("");
     setCurrentPage(1);
   };
 
   const handleResetFilters = () => {
     setSelectedCategory("Semua Produk");
+    setSearchInput("");
     setSearchQuery("");
     setCurrentPage(1);
   };
@@ -136,7 +156,16 @@ export function Catalog() {
           <Container>
             <CatalogHeader />
 
-            {/* 4. Two-Column Marketplace Layout */}
+            {/* 4. Search Bar */}
+            <div className="mb-8">
+              <SearchBar
+                value={searchInput}
+                onChange={handleSearchChange}
+                onClear={handleClearSearch}
+              />
+            </div>
+
+            {/* 5. Two-Column Catalog Layout */}
             <div
               id="katalog-produk"
               className="flex scroll-mt-24 flex-col lg:flex-row gap-8 lg:gap-10"
@@ -152,7 +181,6 @@ export function Catalog() {
                 products={visibleProducts}
                 selectedCategory={selectedCategory}
                 searchQuery={searchQuery}
-                onSearchChange={handleSearchChange}
                 onResetCategory={handleResetCategory}
                 onResetFilters={handleResetFilters}
                 currentPage={activePage}
